@@ -1,0 +1,40 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Meeting List</title>
+</head>
+<body>
+    <h1>Meetings</h1>
+    <a href="{{ url_for('add_meeting') }}">Add Meeting</a> |
+    <a href="{{ url_for('add_student') }}">Add Student</a> |
+    <a href="{{ url_for('report') }}">View Meeting Report</a>
+
+    {% if meetings %}
+        <ul>
+            {% for meeting in meetings %}
+            <li>
+                {{ meeting.date }} - {{ meeting.time }} - {{ meeting.description }} - Duration: {{ meeting.duration }} minutes
+                <br>Organizers: {% for organizer in meeting.organizers %}{{ organizer.name }}{% if not loop.last %}, {% endif %}{% endfor %}
+                <br>
+                <a href="{{ url_for('edit_meeting', meeting_id=meeting.id) }}">Edit</a> |
+                <a href="{{ url_for('delete_meeting', meeting_id=meeting.id) }}">Delete</a>
+            </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No meetings available. <a href="{{ url_for('add_meeting') }}">Add a new meeting</a>.</p>
+    {% endif %}
+
+    <h2>Students</h2>
+    <ul>
+        {% for student in students %}
+        <li>
+            {{ student.name }}
+            <a href="{{ url_for('delete_student', student_id=student.id) }}">Delete</a>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

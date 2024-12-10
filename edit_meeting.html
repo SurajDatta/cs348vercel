@@ -1,0 +1,38 @@
+<!-- templates/edit_meeting.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Meeting</title>
+</head>
+<body>
+    <h1>Edit Meeting</h1>
+    <form method="post">
+        <label for="date">Date:</label>
+        <input type="date" name="date" value="{{ meeting.date.strftime('%Y-%m-%d') }}" required><br>
+
+        <label for="time">Time:</label>
+        <input type="time" name="time" value="{{ meeting.time.strftime('%H:%M') }}" required><br>
+
+        <label for="description">Description:</label>
+        <input type="text" name="description" value="{{ meeting.description }}" required><br>
+
+        <label for="duration">Duration (minutes):</label>
+        <input type="number" name="duration" value="{{ meeting.duration }}" required><br>
+
+        <label for="organizers">Organizers:</label>
+        <select name="organizers" multiple>
+            {% for student in students %}
+            <option value="{{ student.id }}" {% if student in meeting.organizers %}selected{% endif %}>
+                {{ student.name }}
+            </option>
+            {% endfor %}
+        </select><br>
+        <small>Hold down the Ctrl (Windows) or Command (Mac) key to select multiple organizers.</small><br>
+
+        <button type="submit">Save Changes</button>
+        <a href="{{ url_for('index') }}">Cancel</a>
+    </form>
+</body>
+</html>
+

@@ -1,0 +1,36 @@
+<!-- templates/add_meeting.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Meeting</title>
+</head>
+<body>
+    <h1>Add a New Meeting</h1>
+    <form method="post">
+        <label for="date">Date:</label>
+        <input type="date" name="date" required><br>
+
+        <label for="time">Time:</label>
+        <input type="time" name="time" required><br>
+
+        <label for="description">Description:</label>
+        <input type="text" name="description" placeholder="Enter meeting description" required><br>
+
+        <label for="duration">Duration (minutes):</label>
+        <input type="number" name="duration" value="30" required><br>
+
+        <label for="organizers">Organizers:</label>
+        <select name="organizers" multiple>
+            {% for student in students %}
+            <option value="{{ student.id }}">{{ student.name }}</option>
+            {% endfor %}
+        </select><br>
+        <small>Hold down the Ctrl (Windows) or Command (Mac) key to select multiple organizers.</small><br>
+
+        <button type="submit">Add Meeting</button>
+        <a href="{{ url_for('index') }}">Cancel</a>
+    </form>
+</body>
+</html>
+

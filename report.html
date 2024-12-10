@@ -1,0 +1,56 @@
+<!-- templates/report.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Meeting Report</title>
+</head>
+<body>
+    <h1>Meeting Report</h1>
+    <a href="{{ url_for('index') }}">Back to Home</a> <!-- Link to go back to the home page -->
+    <form method="get" action="{{ url_for('report') }}">
+        <label for="start_date">Start Date:</label>
+        <input type="date" name="start_date" required><br>
+
+        <label for="end_date">End Date:</label>
+        <input type="date" name="end_date" required><br>
+
+        <label for="room">Room:</label>
+        <select name="room">
+            <option value="">All Rooms</option>
+            {% for room in rooms %}
+            <option value="{{ room.id }}">{{ room.name }}</option>
+            {% endfor %}
+        </select><br>
+
+        <label for="club">Club:</label>
+        <select name="club">
+            <option value="">All Clubs</option>
+            {% for club in clubs %}
+            <option value="{{ club.id }}">{{ club.name }}</option>
+            {% endfor %}
+        </select><br>
+
+        <button type="submit">Generate Report</button>
+    </form>
+
+    {% if meetings %}
+        <h2>Filtered Meetings</h2>
+        <ul>
+            {% for meeting in meetings %}
+            <li>
+                {{ meeting.date }} - {{ meeting.time }} - {{ meeting.description }} - Duration: {{ meeting.duration }} minutes
+                <br>Room: {{ meeting.room.name }} | Club: {{ meeting.club.name }}
+                <br>Invited: {{ meeting.invited_students }} | Accepted: {{ meeting.accepted_invitations }} | Attendees: {{ meeting.attendees }}
+            </li>
+            {% endfor %}
+        </ul>
+
+        <h2>Statistics</h2>
+        <p>Average Duration: {{ avg_duration }} minutes</p>
+        <p>Average Invited Students: {{ avg_invited }}</p>
+        <p>Average Accepted Invitations: {{ avg_accepted }}</p>
+        <p>Average Attendance Rate: {{ avg_attendance_rate }}%</p>
+    {% endif %}
+</body>
+</html>
